@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/jesalx/tmux-sessionizer/internal/config"
 	"github.com/jesalx/tmux-sessionizer/internal/finder"
 	"github.com/jesalx/tmux-sessionizer/internal/formatter"
 	"github.com/jesalx/tmux-sessionizer/internal/tmux"
@@ -102,13 +103,23 @@ func CloneAndRun(repoURL string) error {
 		return err
 	}
 
+	cfg := config.Get()
 	repoName, err := extractRepoName(repoURL)
 	if err != nil {
 		return fmt.Errorf("failed to parse repository URL: %w", err)
 	}
 
 	if _, err := os.Stat(repoName); os.IsNotExist(err) {
-		cmd := exec.Command("git", "clone", repoURL)
+		var cmd *exec.Cmd
+		switch cfg.VCS {
+		case "git":
+			cmd = exec.Command("git", "clone", repoURL)
+		case "jj":
+			cmd = exec.Command("jj", "git", "clone", repoURL)
+		default:
+			return fmt.Errorf("unsupported VCS: %s", cfg.VCS)
+		}
+
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		if err := cmd.Run(); err != nil {

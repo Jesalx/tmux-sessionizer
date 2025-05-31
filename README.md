@@ -39,6 +39,8 @@ export PATH=$PATH:$(go env GOPATH)/bin
 Create a config file at `~/.config/tmux-sessionizer/config.yaml`:
 
 ```yaml
+# Which version control system to use
+vcs: git
 # Maximum depth to search in directories
 max_depth: 2
 
@@ -54,6 +56,7 @@ search_paths:
 
 ### Configuration Options
 
+- `vcs`: Version control system to use (options: git, jj)
 - `max_depth`: Default depth for directory searching (default: 1)
 - `search_paths`: Array of paths to search for projects
   - `path`: Directory path (supports `~/` expansion)
