@@ -8,7 +8,11 @@ Make sure you have these tools installed:
 
 - `tmux`
 - `fzf`
+
+One version control software:
+
 - `git`
+- `jj`
 
 ## Installation
 
