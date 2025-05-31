@@ -15,6 +15,7 @@ type SearchPath struct {
 }
 
 type Config struct {
+	VCS         string       `yaml:"vcs,omitempty"`
 	SearchPaths []SearchPath `yaml:"search_paths,omitempty"`
 	MaxDepth    int          `yaml:"max_depth,omitempty"`
 }
@@ -44,6 +45,7 @@ func Get() *Config {
 func loadConfig() {
 	globalConfig.SearchPaths = []SearchPath{}
 	globalConfig.MaxDepth = 1
+	globalConfig.VCS = "git"
 
 	if _, err := os.Stat(configFile); os.IsNotExist(err) {
 		return
